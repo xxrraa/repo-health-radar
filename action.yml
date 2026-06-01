@@ -43,5 +43,5 @@ outputs:
   report-path:
     description: Markdown report path when configured.
 runs:
-  using: node20
+  using: node24
   main: src/cli.js
