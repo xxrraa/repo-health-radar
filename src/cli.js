@@ -5,6 +5,7 @@ import { analyzeRepository } from "./analyze.js";
 import { fetchGitHubStats, normalizeRepositorySlug } from "./github.js";
 import { getGitStats } from "./git.js";
 import { renderJson, renderMarkdown } from "./report.js";
+import { VERSION } from "./version.js";
 
 const HELP = `
 Repo Health Radar
@@ -33,7 +34,7 @@ export async function main(argv = process.argv.slice(2), env = process.env) {
   }
 
   if (args.version) {
-    process.stdout.write("0.1.0\n");
+    process.stdout.write(`${VERSION}\n`);
     return 0;
   }
 

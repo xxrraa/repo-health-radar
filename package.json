@@ -1,6 +1,6 @@
 {
   "name": "repo-health-radar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A zero-dependency CLI and GitHub Action that scores open-source repository health.",
   "type": "module",
   "bin": {

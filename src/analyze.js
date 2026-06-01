@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { VERSION } from "./version.js";
 
 const IGNORE_DIRECTORIES = new Set([
   ".git",
@@ -61,7 +62,7 @@ export async function analyzeRepository(rootDirectory, options = {}) {
 
   return {
     tool: "repo-health-radar",
-    version: "0.1.0",
+    version: VERSION,
     generatedAt: now.toISOString(),
     root,
     score,
