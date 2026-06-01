@@ -17,7 +17,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "lint": "node --check src/*.js test/*.js",
+    "lint": "node scripts/check-syntax.js",
     "test": "node --test",
     "audit": "npm audit --audit-level=high",
     "smoke": "node src/cli.js --path . --format both --min-score 70",
