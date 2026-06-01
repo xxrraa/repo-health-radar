@@ -17,7 +17,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "lint": "node --check src/*.js test/*.js",
+    "lint": "node --check src/analyze.js src/cli.js src/git.js src/github.js src/report.js src/version.js test/analyze.test.js test/cli.test.js",
     "test": "node --test",
     "audit": "npm audit --audit-level=high",
     "smoke": "node src/cli.js --path . --format both --min-score 70",
