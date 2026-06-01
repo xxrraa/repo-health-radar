@@ -47,6 +47,51 @@ test("counts open GitHub issues without pull requests", async (t) => {
   ]);
 });
 
+test("counts open GitHub issues across paginated results", async (t) => {
+  const originalFetch = globalThis.fetch;
+  const requests = [];
+
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+  });
+
+  globalThis.fetch = async (url) => {
+    requests.push(url);
+
+    if (url.endsWith("/repos/owner/repo")) {
+      return jsonResponse({ open_issues_count: 99 });
+    }
+
+    if (url.endsWith("/repos/owner/repo/issues?state=open&per_page=100")) {
+      return jsonResponse(
+        [
+          { number: 1, title: "Bug" },
+          { number: 2, title: "Fix", pull_request: {} }
+        ],
+        '<https://api.github.com/repos/owner/repo/issues?state=open&per_page=100&page=2>; rel="next"'
+      );
+    }
+
+    if (url.endsWith("/repos/owner/repo/issues?state=open&per_page=100&page=2")) {
+      return jsonResponse([
+        { number: 3, title: "Follow-up" },
+        { number: 4, title: "Docs" }
+      ]);
+    }
+
+    throw new Error(`Unexpected URL: ${url}`);
+  };
+
+  const stats = await fetchGitHubStats("owner/repo");
+
+  assert.equal(stats.openIssues, 3);
+  assert.deepEqual(requests, [
+    "https://api.github.com/repos/owner/repo",
+    "https://api.github.com/repos/owner/repo/issues?state=open&per_page=100",
+    "https://api.github.com/repos/owner/repo/issues?state=open&per_page=100&page=2"
+  ]);
+});
+
 test("falls back to repository issue count when issue lookup fails", async (t) => {
   const originalFetch = globalThis.fetch;
 
@@ -71,10 +116,13 @@ test("falls back to repository issue count when issue lookup fails", async (t) =
   assert.equal(stats.openIssues, 7);
 });
 
-function jsonResponse(data) {
+function jsonResponse(data, link = "") {
   return {
     ok: true,
     status: 200,
+    headers: {
+      get: (name) => (name.toLowerCase() === "link" ? link : "")
+    },
     json: async () => data
   };
 }
