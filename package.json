@@ -1,0 +1,47 @@
+{
+  "name": "repo-health-radar",
+  "version": "0.1.0",
+  "description": "A zero-dependency CLI and GitHub Action that scores open-source repository health.",
+  "type": "module",
+  "bin": {
+    "repo-health-radar": "./src/cli.js"
+  },
+  "exports": {
+    ".": "./src/analyze.js",
+    "./report": "./src/report.js"
+  },
+  "files": [
+    "src",
+    "action.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "lint": "node --check src/*.js test/*.js",
+    "test": "node --test",
+    "audit": "npm audit --audit-level=high",
+    "smoke": "node src/cli.js --path . --format both --min-score 70",
+    "check": "npm run lint && npm test && npm run smoke"
+  },
+  "keywords": [
+    "github-action",
+    "open-source",
+    "maintainers",
+    "repository-health",
+    "oss",
+    "cli"
+  ],
+  "author": "xxrraa",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xxrraa/repo-health-radar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xxrraa/repo-health-radar/issues"
+  },
+  "homepage": "https://github.com/xxrraa/repo-health-radar#readme"
+}

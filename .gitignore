@@ -1,0 +1,7 @@
+node_modules/
+npm-debug.log*
+coverage/
+dist/
+.DS_Store
+repo-health-radar.md
+repo-health-radar.json

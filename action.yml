@@ -1,0 +1,47 @@
+name: Repo Health Radar
+description: Score repository health signals that matter to open-source maintainers.
+author: repo-health-radar contributors
+branding:
+  icon: activity
+  color: green
+inputs:
+  path:
+    description: Repository path to scan.
+    required: false
+    default: .
+  min-score:
+    description: Fail the action when the score is below this number.
+    required: false
+    default: "70"
+  github-repo:
+    description: Repository slug for adoption metrics, for example owner/repo. Defaults to GITHUB_REPOSITORY.
+    required: false
+    default: ""
+  no-github:
+    description: Disable GitHub API lookup.
+    required: false
+    default: "false"
+  format:
+    description: Console output format: markdown, json, or both.
+    required: false
+    default: markdown
+  markdown-file:
+    description: Optional path for the markdown report.
+    required: false
+    default: repo-health-radar.md
+  json-file:
+    description: Optional path for the JSON report.
+    required: false
+    default: repo-health-radar.json
+outputs:
+  score:
+    description: Final repository health score from 0 to 100.
+  grade:
+    description: Letter grade for the score.
+  passed:
+    description: Whether the score met min-score.
+  report-path:
+    description: Markdown report path when configured.
+runs:
+  using: node20
+  main: src/cli.js
