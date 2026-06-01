@@ -1,0 +1,19 @@
+name: Repo Health Radar
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Run Repo Health Radar
+        run: node src/cli.js --path . --format both --min-score 0 --no-github
