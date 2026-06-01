@@ -22,7 +22,7 @@ inputs:
     required: false
     default: "false"
   format:
-    description: Console output format: markdown, json, or both.
+    description: "Console output format: markdown, json, or both."
     required: false
     default: markdown
   markdown-file:
