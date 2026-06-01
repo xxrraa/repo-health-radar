@@ -4,7 +4,7 @@
   "description": "A zero-dependency CLI and GitHub Action that scores open-source repository health.",
   "type": "module",
   "bin": {
-    "repo-health-radar": "./src/cli.js"
+    "repo-health-radar": "src/cli.js"
   },
   "exports": {
     ".": "./src/analyze.js",
@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xxrraa/repo-health-radar.git"
+    "url": "git+https://github.com/xxrraa/repo-health-radar.git"
   },
   "bugs": {
     "url": "https://github.com/xxrraa/repo-health-radar/issues"
