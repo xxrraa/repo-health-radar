@@ -37,13 +37,15 @@ export async function fetchGitHubStats(repositorySlug, token) {
     }
 
     const data = await response.json();
+    const openIssues = await fetchOpenIssueCount(slug, headers);
+
     return {
       available: true,
       repository: slug,
       stars: data.stargazers_count ?? 0,
       forks: data.forks_count ?? 0,
       watchers: data.subscribers_count ?? data.watchers_count ?? 0,
-      openIssues: data.open_issues_count ?? 0,
+      openIssues: openIssues ?? data.open_issues_count ?? 0,
       defaultBranch: data.default_branch ?? null,
       pushedAt: data.pushed_at ?? null,
       archived: Boolean(data.archived),
@@ -56,5 +58,23 @@ export async function fetchGitHubStats(repositorySlug, token) {
       repository: slug,
       reason: error.message
     };
+  }
+}
+
+async function fetchOpenIssueCount(slug, headers) {
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${slug}/issues?state=open&per_page=100`,
+      { headers }
+    );
+
+    if (!response.ok) return null;
+
+    const issues = await response.json();
+    if (!Array.isArray(issues)) return null;
+
+    return issues.filter((issue) => !issue.pull_request).length;
+  } catch {
+    return null;
   }
 }
