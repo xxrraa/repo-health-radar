@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { analyzeRepository } from "./analyze.js";
 import { fetchGitHubStats, normalizeRepositorySlug } from "./github.js";
 import { getGitStats } from "./git.js";
@@ -185,7 +186,7 @@ function parseBoolean(value) {
   return ["1", "true", "yes", "on"].includes(String(value).toLowerCase());
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   main().then((code) => {
     process.exitCode = code;
   }).catch((error) => {
