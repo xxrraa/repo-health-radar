@@ -63,18 +63,34 @@ export async function fetchGitHubStats(repositorySlug, token) {
 
 async function fetchOpenIssueCount(slug, headers) {
   try {
-    const response = await fetch(
-      `https://api.github.com/repos/${slug}/issues?state=open&per_page=100`,
-      { headers }
-    );
+    let url = `https://api.github.com/repos/${slug}/issues?state=open&per_page=100`;
+    let count = 0;
 
-    if (!response.ok) return null;
+    while (url) {
+      const response = await fetch(url, { headers });
 
-    const issues = await response.json();
-    if (!Array.isArray(issues)) return null;
+      if (!response.ok) return null;
 
-    return issues.filter((issue) => !issue.pull_request).length;
+      const issues = await response.json();
+      if (!Array.isArray(issues)) return null;
+
+      count += issues.filter((issue) => !issue.pull_request).length;
+      url = nextPageUrl(response.headers?.get("link"));
+    }
+
+    return count;
   } catch {
     return null;
   }
+}
+
+function nextPageUrl(linkHeader) {
+  if (!linkHeader) return null;
+
+  for (const link of linkHeader.split(",")) {
+    const match = link.match(/<([^>]+)>;\s*rel="next"/);
+    if (match) return match[1];
+  }
+
+  return null;
 }
