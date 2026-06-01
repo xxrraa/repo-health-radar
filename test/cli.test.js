@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import test from "node:test";
 import { normalizeOptions } from "../src/cli.js";
+
+const execFileAsync = promisify(execFile);
 
 test("normalizes GitHub Action inputs with underscore environment names", () => {
   const options = normalizeOptions({}, {
@@ -26,4 +30,11 @@ test("normalizes GitHub Action inputs with hyphenated environment names", () => 
   assert.equal(options.minScore, 90);
   assert.equal(options.noGithub, true);
   assert.equal(options.githubRepo, "owner/repo");
+});
+
+test("runs the CLI when launched directly", async () => {
+  const { stdout } = await execFileAsync(process.execPath, ["src/cli.js", "--help"]);
+
+  assert.match(stdout, /Repo Health Radar/);
+  assert.match(stdout, /--path <dir>/);
 });
