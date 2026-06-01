@@ -77,6 +77,10 @@ The action writes a summary to the GitHub Actions job summary and exposes these 
 | `passed` | Whether the score met `min-score`. |
 | `report-path` | Markdown report path when configured. |
 
+## Used By
+
+- [drew-34-to/repo-health-radar](https://github.com/drew-34-to/repo-health-radar) runs Repo Health Radar in GitHub Actions. See the [successful workflow run](https://github.com/drew-34-to/repo-health-radar/actions/runs/26782976123).
+
 ## Scoring
 
 Repo Health Radar scores six categories:
