@@ -79,6 +79,7 @@ The action writes a summary to the GitHub Actions job summary and exposes these 
 
 ## Used By
 
+- [walterrafi123-png/repo-health-demo-js](https://github.com/walterrafi123-png/repo-health-demo-js) uses Repo Health Radar in GitHub Actions. See the [successful workflow run](https://github.com/walterrafi123-png/repo-health-demo-js/actions/runs/26788636904).
 - [drew-34-to/repo-health-radar](https://github.com/drew-34-to/repo-health-radar) runs Repo Health Radar in GitHub Actions. See the [successful workflow run](https://github.com/drew-34-to/repo-health-radar/actions/runs/26782976123).
 
 ## Scoring
